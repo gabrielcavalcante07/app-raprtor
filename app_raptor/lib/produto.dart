@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ProdutoScreen(),
-    );
-  }
-}
-  
 class ProdutoScreen extends StatefulWidget {
-  const ProdutoScreen({super.key});
+  final String imageUrl;
+  final String name;
+  final String price;
+
+  const ProdutoScreen({super.key, required this.imageUrl, required this.name, required this.price});
 
   @override
   State<ProdutoScreen> createState() => _ProdutoScreenState();
@@ -48,8 +36,8 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                   child: Stack(
                     children: [
                       Center(
-                        child: Image.asset(
-                          'assets/images/jordan4.png.',
+                        child: Image.network( // Usando Image.network para carregar a imagem da URL
+                          widget.imageUrl,
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -73,17 +61,17 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
-                        'Jordan 4',
-                        style: TextStyle(
+                        widget.name, // Usando o nome do produto recebido
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        'R\$399,99',
-                        style: TextStyle(
+                        widget.price, // Usando o preço do produto recebido
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.red,
@@ -186,9 +174,9 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'R\$399,99',
-                  style: TextStyle(
+                Text(
+                  widget.price, // Usando o preço do produto recebido
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Colors.white,
                   ),

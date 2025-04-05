@@ -1,3 +1,4 @@
+import 'package:app_raptor/produto.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,25 +13,54 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'Raptor Street',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomeWidget(),
+      home: const HomePage(), // Começa com a HomePage
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class HomeWidget extends StatefulWidget {
-  const HomeWidget({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomeWidget> createState() => _HomeWidgetState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
+  int _selectedIndex = 0; // Índice da página selecionada no BottomNavigationBar
+
+  final List<String> _imageUrls = [
+    'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/8b08f141-4901-4e04-a17b-21e868003e44/sportswear-phoenix-fleece-womens-oversized-pullover-hoodie-bs372Q.png',
+    'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a825afbf-a2c1-4ad8-a3a7-f3a4b29d78b8/primary-mens-dri-fit-versatile-tank-RcQ41g.png',
+    'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dc811684-8b82-4fbf-8db8-df854abc2131/sportswear-phoenix-fleece-womens-oversized-pullover-hoodie-bs372Q.png',
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Navegação para as páginas com base no índice selecionado
+    switch (index) {
+      case 0: // Home
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+        break;
+      case 1: // Pesquisar
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()));
+        break;
+      case 2: // Favoritos
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoritesPage()));
+        break;
+      case 3: // Conta
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountPage()));
+        break;
+    }
+  }
 
   @override
   void dispose() {
@@ -84,18 +114,17 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               height: 530,
               child: Stack(
                 children: [
-                  PageView(
+                  PageView.builder(
                     controller: _pageController,
                     onPageChanged: (int page) {
                       setState(() {
-                        _currentPage = page;
+                        _currentPage = page % _imageUrls.length; // Garante que _currentPage nunca ultrapasse os limites da lista
                       });
                     },
-                    children: [
-                      _buildImage('https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/8b08f141-4901-4e04-a17b-21e868003e44/sportswear-phoenix-fleece-womens-oversized-pullover-hoodie-bs372Q.png'),
-                      _buildImage('https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a825afbf-a2c1-4ad8-a3a7-f3a4b29d78b8/primary-mens-dri-fit-versatile-tank-RcQ41g.png'),
-                      _buildImage('https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dc811684-8b82-4fbf-8db8-df854abc2131/sportswear-phoenix-fleece-womens-oversized-pullover-hoodie-bs372Q.png'),
-                    ],
+                    itemBuilder: (context, index) {
+                      return _buildImage(_imageUrls[index % _imageUrls.length]); // Loop infinito
+                    },
+                    itemCount: _imageUrls.length * 100, // Simula um loop infinito
                   ),
                   Positioned(
                     bottom: 10,
@@ -103,7 +132,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                     right: 0,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: List<Widget>.generate(3, (int index) {
+                      children: List<Widget>.generate(_imageUrls.length, (int index) {
                         return Container(
                           width: 8.0,
                           height: 8.0,
@@ -150,18 +179,57 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  _buildProductItem('https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/adf87c27-e670-4e75-86fd-31c1241b9ed6/air-max-90-mens-shoes-6n3vKB.png', 'Nike Air Shoe', '\$250.00'),
-                  _buildProductItem('https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/9e7c969b-a36f-4d25-ae53-80ca724ea237/air-max-systm-mens-shoes-TwgLWK.png', 'Nike Air Shoe', '\$120.00'),
-                  _buildProductItem('https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/74a133e6-c902-48f2-9e77-765a727fadf3/air-max-systm-womens-shoes-Cz5zxV.png', 'AirMax', '\$250.00'),
+                  _buildProductItem(
+                    'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/adf87c27-e670-4e75-86fd-31c1241b9ed6/air-max-90-mens-shoes-6n3vKB.png',
+                    'Nike Air Shoe',
+                    '\$250.00',
+                  ),
+                  _buildProductItem(
+                    'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/9e7c969b-a36f-4d25-ae53-80ca724ea237/air-max-systm-mens-shoes-TwgLWK.png',
+                    'Nike Air Shoe',
+                    '\$120.00',
+                  ),
+                  _buildProductItem(
+                    'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/74a133e6-c902-48f2-9e77-765a727fadf3/air-max-systm-womens-shoes-Cz5zxV.png',
+                    'AirMax',
+                    '\$250.00',
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
+
+      //barra de navegação
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Pesquisar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favoritos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Conta',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+      ),
     );
   }
 
+  // Estilo dos Cards
   Widget _buildImage(String imageUrl) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -178,64 +246,213 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
   }
 
   Widget _buildProductItem(String imageUrl, String name, String price) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Container(
-        width: 180,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 3),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProdutoScreen(
+              imageUrl: imageUrl,
+              name: name,
+              price: price,
             ),
-          ],
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Container(
+          width: 180,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      imageUrl,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    price,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    imageUrl,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  price,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+      ),
+    );
+  }
+}
+
+class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Pesquisar')),
+      body: const Center(child: Text('Página de Pesquisa')),
+      bottomNavigationBar: BottomNavigationBar( // Mantém o BottomNavigationBar
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Pesquisar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favoritos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Conta',
+          ),
+        ],
+        currentIndex: 1, // Seleciona o item "Pesquisar"
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          // Lógica de navegação para as outras páginas
+          if (index == 0) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+          } else if (index == 2) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoritesPage()));
+          } else if (index == 3) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountPage()));
+          }
+        },
+      ),
+    );
+  }
+}
+
+class FavoritesPage extends StatelessWidget {
+  const FavoritesPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Favoritos')),
+      body: const Center(child: Text('Página de Favoritos')),
+      bottomNavigationBar: BottomNavigationBar( // Mantém o BottomNavigationBar
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Pesquisar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favoritos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Conta',
+          ),
+        ],
+        currentIndex: 2, // Seleciona o item "Favoritos"
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          // Lógica de navegação para as outras páginas
+          if (index == 0) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+          } else if (index == 1) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()));
+          } else if (index == 3) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountPage()));
+          }
+        },
+      ),
+    );
+  }
+}
+
+class AccountPage extends StatelessWidget {
+  const AccountPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Conta')),
+      body: const Center(child: Text('Página da Conta')),
+      bottomNavigationBar: BottomNavigationBar( // Mantém o BottomNavigationBar
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Pesquisar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favoritos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Conta',
+          ),
+        ],
+        currentIndex: 3, // Seleciona o item "Conta"
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          // Lógica de navegação para as outras páginas
+          if (index == 0) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+          } else if (index == 1) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()));
+          } else if (index == 2) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoritesPage()));
+          }
+        },
       ),
     );
   }
