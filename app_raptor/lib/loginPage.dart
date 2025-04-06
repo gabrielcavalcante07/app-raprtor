@@ -1,4 +1,4 @@
-import 'package:app_raptor/cadastro.dart';
+import 'package:app_raptor/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {

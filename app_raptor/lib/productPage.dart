@@ -4,8 +4,15 @@ class ProdutoScreen extends StatefulWidget {
   final String imageUrl;
   final String name;
   final String price;
+  final String description;
 
-  const ProdutoScreen({super.key, required this.imageUrl, required this.name, required this.price});
+  const ProdutoScreen({
+    super.key,
+    required this.imageUrl,
+    required this.name,
+    required this.price,
+    required this.description,
+  });
 
   @override
   State<ProdutoScreen> createState() => _ProdutoScreenState();
@@ -13,9 +20,19 @@ class ProdutoScreen extends StatefulWidget {
 
 class _ProdutoScreenState extends State<ProdutoScreen> {
   String? tamanhoSelecionado;
+  bool isFavorito = false;
 
   List<String> tamanhos = [
-    '35', '36', '37', '38', '39', '40', '41', '42', '43', '44'
+    '35',
+    '36',
+    '37',
+    '38',
+    '39',
+    '40',
+    '41',
+    '42',
+    '43',
+    '44'
   ];
 
   @override
@@ -27,33 +44,52 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
           Expanded(
             child: ListView(
               children: [
-                Container(
-                  height: 400,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFDBE2E7),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Image.network( // Usando Image.network para carregar a imagem da URL
-                          widget.imageUrl,
-                          fit: BoxFit.contain,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Container(
+                    height: 400,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFDBE2E7),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.network(
+                              widget.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        top: 40,
-                        left: 16,
-                        child: _buildIconButton(Icons.arrow_back, () {
-                          Navigator.pop(context);
-                        }),
-                      ),
-                      Positioned(
-                        top: 40,
-                        right: 16,
-                        child: _buildIconButton(Icons.favorite_border, () {}),
-                      ),
-                    ],
+                        Positioned(
+                          top: 40,
+                          left: 16,
+                          child: _buildIconButton(Icons.arrow_back, () {
+                            Navigator.pop(context);
+                          }),
+                        ),
+                        Positioned(
+                          top: 40,
+                          right: 16,
+                          child: _buildIconButton(
+                            isFavorito ? Icons.favorite : Icons.favorite_border,
+                            () {
+                              setState(() {
+                                isFavorito = !isFavorito;
+                                if (isFavorito) {
+                                  print("Favoritado: ${widget.name}");
+                                } else {
+                                  print("Desfavoritado: ${widget.name}");
+                                }
+                              });
+                            },
+                            color: isFavorito ? Colors.red : Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -63,14 +99,14 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.name, // Usando o nome do produto recebido
+                        widget.name,
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        widget.price, // Usando o preço do produto recebido
+                        widget.price,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -81,22 +117,21 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 2),
                   child: Text(
-                    'Retailed by Nike',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
+                    'Avaliações',
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
                   child: Row(
                     children: [
                       Row(
                         children: List.generate(5, (index) {
-                          return const Icon(Icons.star, color: Colors.orange, size: 20);
+                          return const Icon(Icons.star,
+                              color: Colors.blue, size: 20);
                         }),
                       ),
                       const SizedBox(width: 12),
@@ -105,20 +140,20 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(24, 16, 24, 0),
+                  padding: EdgeInsets.fromLTRB(24, 16, 24, 5),
                   child: Text(
-                    'DESCRIPTION',
+                    'Descrição',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontSize: 18,
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(24, 4, 24, 0),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 4, 24, 0),
                   child: Text(
-                    'O Air Jordan 4, lançado em 1989 e criado por Tinker Hatfield, é um dos modelos mais icônicos da Jordan Brand. Possui cabedal em couro ou nobuck, painéis de mesh para ventilação, suporte lateral com "wings" e amortecimento Air-Sole visível...',
-                    style: TextStyle(fontSize: 14),
+                    widget.description,
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ),
                 const Padding(
@@ -175,7 +210,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.price, // Usando o preço do produto recebido
+                  widget.price,
                   style: const TextStyle(
                     fontSize: 18,
                     color: Colors.white,
@@ -184,11 +219,12 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                 ElevatedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.shopping_cart),
-                  label: const Text('Add to Cart'),
+                  label: const Text('Adicionar ao carrinho'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -202,12 +238,13 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
     );
   }
 
-  Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
+  Widget _buildIconButton(IconData icon, VoidCallback onPressed,
+      {Color color = Colors.white}) {
     return Material(
       color: const Color.fromRGBO(0, 0, 0, 0.3),
       shape: const CircleBorder(),
       child: IconButton(
-        icon: Icon(icon, color: Colors.white),
+        icon: Icon(icon, color: color),
         onPressed: onPressed,
       ),
     );

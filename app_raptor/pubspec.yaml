@@ -18,5 +18,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/jordan4.png
     - assets/images/logo.png
+    - assets/tenis/jordan4.png
+    - assets/tenis/adi2000.png
+    - assets/tenis/mizuno.png
+    - assets/tenis/vansKnow.png
+    - assets/tenis/pumaSuedeXL.png
+    - assets/tenis/puma180.png
+    - assets/images/perfil.png
