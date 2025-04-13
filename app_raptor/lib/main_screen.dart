@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'homePage.dart';
-import 'SearchPage.dart';
-import 'FavoritesPage.dart';
-import 'AccountPage.dart';
+import 'home_page.dart';
+import 'package:app_raptor/search_page.dart';
+import 'package:app_raptor/favoritesPage.dart';
+import 'package:app_raptor/account_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [
+  final List<Widget> _pages = [
     HomePage(),
     SearchPage(),
     FavoritesPage(),
@@ -39,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
         selectedItemColor: Colors.red,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
-        items: const [
+        items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Pesquisar'),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favoritos'),

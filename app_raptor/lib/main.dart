@@ -1,6 +1,6 @@
-import 'package:app_raptor/mainScreen.dart';
+import 'package:app_raptor/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'homePage.dart';
+import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
