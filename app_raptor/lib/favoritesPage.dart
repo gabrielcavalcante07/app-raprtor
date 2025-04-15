@@ -9,25 +9,27 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-  // Lista simulada de itens favoritos
   List<Map<String, dynamic>> favoriteItems = [
     {
-      'title': 'Produto 1',
+      'title': 'Jordan 4 Retro',
       'price': 'R\$ 100,00',
       'image': 'assets/tenis/jordan4.png',
       'isFavorite': true,
+      'rating': 4.5,
     },
     {
-      'title': 'Produto 2',
+      'title': 'Adidas ADI2000',
       'price': 'R\$ 150,00',
       'image': 'assets/tenis/adi2000.png',
       'isFavorite': true,
+      'rating': 4.0,
     },
     {
-      'title': 'Produto 3',
+      'title': 'Puma 180',
       'price': 'R\$ 200,00',
       'image': 'assets/tenis/puma180.png',
       'isFavorite': true,
+      'rating': 4.8,
     },
   ];
 
@@ -42,7 +44,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     String imageUrl,
     String name,
     String price,
-    String description,
+    double rating,
     int index,
   ) {
     return GestureDetector(
@@ -54,49 +56,40 @@ class _FavoritesPageState extends State<FavoritesPage> {
               imageUrl: imageUrl,
               name: name,
               price: price,
-              description: description,
+              description: '',
             ),
           ),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Container(
-          width: 180,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 4,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
           child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // 🔧 alinhamento à esquerda
             children: [
               Expanded(
                 child: Stack(
                   alignment: Alignment.topRight,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8),
+                    Center(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
                           imageUrl,
-                          width: double.infinity,
                           fit: BoxFit.contain,
+                          height: 100,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          toggleFavorite(index);
-                        },
+                    GestureDetector(
+                      onTap: () {
+                        toggleFavorite(index);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
                         child: Icon(
                           favoriteItems[index]['isFavorite']
                               ? Icons.favorite
@@ -110,34 +103,29 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   ],
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
+              const SizedBox(height: 8),
+              Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    price,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  const Icon(Icons.star, color: Colors.amber, size: 16),
+                  const SizedBox(width: 4),
+                  Text(rating.toString()),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                price,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -151,15 +139,21 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favoritos'),
+        centerTitle: true, // ✅ título centralizado
+        title: const Text(
+          'Favoritos',
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // ✅ título em negrito
+          ),
+        ),
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(8.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.7,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
+          childAspectRatio: 0.75,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
         ),
         itemCount: favoriteItems.length,
         itemBuilder: (context, index) {
@@ -169,7 +163,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
             item['image'],
             item['title'],
             item['price'],
-            '',
+            item['rating'],
             index,
           );
         },

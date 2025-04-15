@@ -1,4 +1,6 @@
+import 'package:app_raptor/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:app_raptor/main_screen.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -12,6 +14,17 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MainScreen(startIndex: 0),
+              ),
+            );
+          },
+        ),
         title: const Text("Minha Conta"),
         centerTitle: true,
       ),
@@ -92,7 +105,10 @@ class _AccountPageState extends State<AccountPage> {
                     TextButton(
                         onPressed: () {
                           // confirmar exclusão
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
                         },
                         child: const Text("Excluir",
                             style: TextStyle(color: Colors.red))),

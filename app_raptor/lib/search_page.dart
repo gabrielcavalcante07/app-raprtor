@@ -8,10 +8,6 @@ class SearchPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pesquisar'),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back),
-        //   onPressed: () => Navigator.pop(context),
-        // ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -44,21 +40,42 @@ class SearchPage extends StatelessWidget {
             // Lista de resultados (mock)
             Expanded(
               child: ListView(
-                children: const [
+                children: [
                   ListTile(
-                    leading: Icon(Icons.shopping_bag),
-                    title: Text('Produto 1'),
-                    subtitle: Text('R\$ 99,99'),
+                    leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.asset(
+                        'assets/tenis/hocksbold.jpg',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    title: const Text('Hocks Bold'),
+                    subtitle: const Text('R\$ 499,99'),
                   ),
                   ListTile(
-                    leading: Icon(Icons.shopping_bag),
-                    title: Text('Produto 2'),
-                    subtitle: Text('R\$ 129,90'),
+                    leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.asset(
+                        'assets/tenis/puma180.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    title: const Text('Puma 180'),
+                    subtitle: const Text('R\$ 499,90'),
                   ),
                   ListTile(
-                    leading: Icon(Icons.shopping_bag),
-                    title: Text('Produto 3'),
-                    subtitle: Text('R\$ 59,99'),
+                    leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.asset(
+                        'assets/tenis/badbunny.webp',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    title: Text('Adidas BadBunny'),
+                    subtitle: Text('R\$ 899,99'),
                   ),
                 ],
               ),

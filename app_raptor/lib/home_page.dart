@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Promoções',
+                  'Populares',
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 20,
@@ -143,24 +143,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 scrollDirection: Axis.horizontal,
                 children: [
                   _buildProductItem('assets/tenis/adi2000.png', 'Adi2000',
-                      'R\$699.99', 'Adi200 é pelo'),
+                      'R\$699,99', 'Adi200 é pelo'),
                   _buildProductItem('assets/tenis/puma180.png', 'Puma',
-                      'R\$499.99', 'Puma180 é chave'),
+                      'R\$499,99', 'Puma180 é chave'),
                   _buildProductItem('assets/tenis/vansKnow.png', 'vansKnow',
-                      'R\$350.00', 'Vans Know School'),
+                      'R\$350,00', 'Vans Know School'),
+                  _buildProductItem('assets/tenis/hocksbold.jpg', 'Hocks Bold',
+                      'R\$499,99', 'pelo demazzzzzz'),
+                  _buildProductItem('assets/tenis/airforce1.webp',
+                      'Air Force 1', 'R\$350.00', 'básico que funciona'),
                 ],
               ),
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.center,
                 child: Text(
-                  'Populares',
+                  'Promoções',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.green,
                   ),
                 ),
               ),
@@ -277,7 +281,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     price,
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.green,
+                      color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -344,7 +348,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.green,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Text(
@@ -384,7 +388,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: Text(
                 price,
                 style: const TextStyle(
-                  color: Colors.green,
+                  color: Colors.deepPurple,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),

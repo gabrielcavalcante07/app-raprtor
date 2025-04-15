@@ -110,7 +110,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.red,
+                          color: Colors.deepPurple,
                         ),
                       ),
                     ],
@@ -131,7 +131,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                       Row(
                         children: List.generate(5, (index) {
                           return const Icon(Icons.star,
-                              color: Colors.blue, size: 20);
+                              color: Colors.amber, size: 20);
                         }),
                       ),
                       const SizedBox(width: 12),

@@ -1,24 +1,32 @@
+import 'package:app_raptor/login_page.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:app_raptor/home_page.dart';
 import 'package:app_raptor/search_page.dart';
 import 'package:app_raptor/favoritesPage.dart';
 import 'package:app_raptor/account_page.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int startIndex;
+  const MainScreen({super.key, this.startIndex = 0});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.startIndex;
+  }
 
   final List<Widget> _pages = [
     HomePage(),
     SearchPage(),
     FavoritesPage(),
-    AccountPage(),
+    EntrarScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -39,10 +47,11 @@ class _MainScreenState extends State<MainScreen> {
         selectedItemColor: Colors.red,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Pesquisar'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favoritos'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: 'Favoritos'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Conta'),
         ],
       ),
