@@ -12,23 +12,28 @@ class _CartpageState extends State<Cartpage> {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> carrinho = [
       {
-        'nome': 'Tênis Raptor X',
+        'nome': 'Air Force 1',
         'quantidade': 1,
-        'preco': 199.99,
+        'preco': 350.00,
       },
       {
-        'nome': 'Camiseta Street Style',
+        'nome': 'Vans Know',
         'quantidade': 2,
-        'preco': 89.90,
+        'preco': 350.00,
       },
     ];
 
-    double total = carrinho.fold(0, (soma, item) =>
-        soma + (item['preco'] as double) * (item['quantidade'] as int));
+    double total = carrinho.fold(
+        0,
+        (soma, item) =>
+            soma + (item['preco'] as double) * (item['quantidade'] as int));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Carrinho'),
+        title: const Text(
+          'Carrinho',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -46,10 +51,17 @@ class _CartpageState extends State<Cartpage> {
                 itemBuilder: (context, index) {
                   final item = carrinho[index];
                   return ListTile(
-                    title: Text(item['nome']),
+                    title: Text(
+                      item['nome'],
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Text('Qtd: ${item['quantidade']}'),
                     trailing: Text(
                       'R\$ ${(item['preco'] * item['quantidade']).toStringAsFixed(2)}',
+                      style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
                     ),
                   );
                 },
@@ -65,7 +77,10 @@ class _CartpageState extends State<Cartpage> {
                 ),
                 Text(
                   'R\$ ${total.toStringAsFixed(2)}',
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -79,7 +94,10 @@ class _CartpageState extends State<Cartpage> {
                     const SnackBar(content: Text('Compra finalizada!')),
                   );
                 },
-                child: const Text('Finalizar Compra'),
+                child: const Text(
+                  'Finalizar Compra',
+                  style: TextStyle(color: Colors.green),
+                ),
               ),
             ),
           ],
