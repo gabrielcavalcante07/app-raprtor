@@ -105,10 +105,12 @@ class _AccountPageState extends State<AccountPage> {
                     TextButton(
                         onPressed: () {
                           // confirmar exclusão
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                                  builder: (context) => MainScreen(
+                                        startIndex: 0,
+                                      )));
                         },
                         child: const Text("Excluir",
                             style: TextStyle(color: Colors.red))),

@@ -67,8 +67,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // 🔧 alinhamento à esquerda
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Stack(
@@ -124,7 +123,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 price,
                 style: const TextStyle(
                   fontSize: 14,
-                  color: Colors.grey,
+                  color: Colors.green,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -139,11 +138,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true, // ✅ título centralizado
+        centerTitle: true,
         title: const Text(
           'Favoritos',
           style: TextStyle(
-            fontWeight: FontWeight.bold, // ✅ título em negrito
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

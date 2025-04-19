@@ -52,7 +52,7 @@ class _EntrarScreenState extends State<EntrarScreen> {
                       fontSize: 32,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFFCB2828),
-                      fontFamily: 'Poppins',
+                      fontFamily: 'poppinsns',
                     ),
                   ),
                 ),
@@ -151,7 +151,7 @@ class _EntrarScreenState extends State<EntrarScreen> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
-                        fontFamily: 'Inter',
+                        fontFamily: 'poppins',
                       ),
                     ),
                   ),
@@ -165,7 +165,7 @@ class _EntrarScreenState extends State<EntrarScreen> {
                   children: [
                     const Text(
                       'Não tem uma conta?',
-                      style: TextStyle(fontFamily: 'Inter'),
+                      style: TextStyle(fontFamily: 'poppins'),
                     ),
                     TextButton(
                       onPressed: () {
@@ -181,7 +181,7 @@ class _EntrarScreenState extends State<EntrarScreen> {
                         'Criar Conta',
                         style: TextStyle(
                           color: Color(0xFFCB2828),
-                          fontFamily: 'Inter',
+                          fontFamily: 'poppins',
                         ),
                       ),
                     ),
@@ -221,70 +221,106 @@ class _CadastroScreenState extends State<CadastroScreen> {
   @override
   Widget build(BuildContext context) {
     final largura = MediaQuery.of(context).size.width;
+    final altura = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: SafeArea(
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Cadastro',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFCB2828),
-                  ),
-                ),
-                const SizedBox(height: 32),
-
-                // Nome
-                TextFormField(
-                  controller: _nomeController,
-                  decoration: InputDecoration(
-                    labelText: 'Nome',
-                    hintText: 'Insira seu nome',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Email
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'E-mail',
-                    hintText: 'Insira seu e-mail',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                const SizedBox(height: 16),
-
-                // Senha
-                TextFormField(
-                  controller: _senhaController,
-                  obscureText: !_senhaVisivel,
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    hintText: 'Insira uma senha',
-                    border: OutlineInputBorder(),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _senhaVisivel ? Icons.visibility : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _senhaVisivel = !_senhaVisivel;
-                        });
-                      },
+                // Título
+                Container(
+                  width: largura,
+                  height: altura * 0.106,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Cadastro',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFFCB2828),
+                      fontFamily: 'poppinsns',
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+
+                const SizedBox(height: 16),
+
+                // Nome
+                Container(
+                  width: largura * 0.8,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: TextFormField(
+                    controller: _nomeController,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      labelText: 'Nome',
+                      hintText: 'Insira seu nome',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                  ),
+                ),
+
+                // Email
+                Container(
+                  width: largura * 0.8,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      labelText: 'E-mail',
+                      hintText: 'Insira seu e-mail',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                ),
+
+                // Senha
+                Container(
+                  width: largura * 0.8,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: TextFormField(
+                    controller: _senhaController,
+                    obscureText: !_senhaVisivel,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      labelText: 'Senha',
+                      hintText: 'Insira sua senha',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _senhaVisivel
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _senhaVisivel = !_senhaVisivel;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
 
                 // Botão Criar Conta
                 SizedBox(
@@ -310,7 +346,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                         );
                       } else {
                         print('Conta criada com: $nome, $email');
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => AccountPage(),
@@ -320,28 +356,40 @@ class _CadastroScreenState extends State<CadastroScreen> {
                     },
                     child: const Text(
                       'Criar Conta',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: 'poppins',
+                      ),
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 16),
 
                 // Link para login
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Já tem uma conta?'),
+                    const Text(
+                      'Já tem uma conta?',
+                      style: TextStyle(fontFamily: 'poppins'),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EntrarScreen(),
-                            ));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EntrarScreen(),
+                          ),
+                        );
                       },
                       child: const Text(
                         'Entrar',
-                        style: TextStyle(color: Color(0xFFCB2828)),
+                        style: TextStyle(
+                          color: Color(0xFFCB2828),
+                          fontFamily: 'poppins',
+                        ),
                       ),
                     ),
                   ],

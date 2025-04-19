@@ -1,3 +1,4 @@
+import 'package:app_raptor/cart_page.dart';
 import 'package:flutter/material.dart';
 
 class ProdutoScreen extends StatefulWidget {
@@ -59,7 +60,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                             borderRadius: BorderRadius.circular(16),
                             child: Image.network(
                               widget.imageUrl,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
@@ -169,21 +170,32 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Wrap(
-                    spacing: 8,
+                    spacing: 4, // bem pouco espaço entre colunas
+                    runSpacing: 4, // bem pouco espaço entre linhas
                     children: tamanhos.map((tamanho) {
                       final selecionado = tamanhoSelecionado == tamanho;
-                      return ChoiceChip(
-                        label: Text(tamanho),
-                        selected: selecionado,
-                        onSelected: (_) {
-                          setState(() {
-                            tamanhoSelecionado = tamanho;
-                          });
-                        },
-                        selectedColor: Colors.red,
-                        backgroundColor: Colors.grey[200],
-                        labelStyle: TextStyle(
-                          color: selecionado ? Colors.white : Colors.black,
+                      return SizedBox(
+                        width: (MediaQuery.of(context).size.width -
+                                24 * 2 -
+                                4 * 4) /
+                            5,
+                        child: ChoiceChip(
+                          label: Text(tamanho, textAlign: TextAlign.center),
+                          selected: selecionado,
+                          onSelected: (_) {
+                            setState(() {
+                              tamanhoSelecionado = tamanho;
+                            });
+                          },
+                          selectedColor: Colors.red,
+                          backgroundColor: Colors.grey[200],
+                          labelStyle: TextStyle(
+                            color: selecionado ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                       );
                     }).toList(),
@@ -217,7 +229,10 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                   ),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Cartpage()));
+                  },
                   icon: const Icon(Icons.shopping_cart),
                   label: const Text('Adicionar ao carrinho'),
                   style: ElevatedButton.styleFrom(

@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 30),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 30),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
               childAspectRatio: 0.7,
@@ -228,7 +228,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(10),
         child: Container(
           width: 180,
           decoration: BoxDecoration(
@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   padding: const EdgeInsets.all(8),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
+                    child: Image.asset(
                       imageUrl,
                       width: double.infinity,
                       fit: BoxFit.contain,
@@ -330,7 +330,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.only(bottom: 12),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(

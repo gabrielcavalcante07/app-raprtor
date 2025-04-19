@@ -7,7 +7,11 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pesquisar'),
+        title: Center(
+            child: const Text(
+          'Pesquisar',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -33,8 +37,8 @@ class SearchPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const Text(
-              'Produtos encontrados:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              'Recomendados:',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             // Lista de resultados (mock)
@@ -50,8 +54,14 @@ class SearchPage extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    title: const Text('Hocks Bold'),
-                    subtitle: const Text('R\$ 499,99'),
+                    title: const Text(
+                      'Hocks Bold',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: const Text(
+                      'R\$ 499,99',
+                      style: TextStyle(color: Colors.green),
+                    ),
                   ),
                   ListTile(
                     leading: SizedBox(
@@ -62,8 +72,14 @@ class SearchPage extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    title: const Text('Puma 180'),
-                    subtitle: const Text('R\$ 499,90'),
+                    title: const Text(
+                      'Puma 180',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: const Text(
+                      'R\$ 499,90',
+                      style: TextStyle(color: Colors.green),
+                    ),
                   ),
                   ListTile(
                     leading: SizedBox(
@@ -74,8 +90,14 @@ class SearchPage extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    title: Text('Adidas BadBunny'),
-                    subtitle: Text('R\$ 899,99'),
+                    title: Text(
+                      'Adidas BadBunny',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      'R\$ 899,99',
+                      style: TextStyle(color: Colors.green),
+                    ),
                   ),
                 ],
               ),
