@@ -36,16 +36,13 @@ class _AccountPageState extends State<AccountPage> {
               children: [
                 const CircleAvatar(
                   radius: 60,
-                  backgroundImage: AssetImage(
-                      'assets/images/perfil.png'), // Coloque a imagem na pasta assets
+                  backgroundImage: AssetImage('assets/images/perfil.jpg'),
                 ),
                 Positioned(
                   bottom: 0,
                   right: 4,
                   child: GestureDetector(
-                    onTap: () {
-                      // lógica para editar imagem
-                    },
+                    onTap: () {},
                     child: const CircleAvatar(
                       radius: 18,
                       backgroundColor: Colors.deepPurple,
@@ -62,9 +59,7 @@ class _AccountPageState extends State<AccountPage> {
           buildUserInfo("Telefone", "(11) 94174-1429"),
           const SizedBox(height: 20),
           ElevatedButton.icon(
-            onPressed: () {
-              // lógica para editar perfil
-            },
+            onPressed: () {},
             icon: const Icon(Icons.edit, color: Colors.black),
             label: Text("Editar Perfil", style: TextStyle(color: Colors.black)),
           ),
@@ -85,7 +80,6 @@ class _AccountPageState extends State<AccountPage> {
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(),
             onPressed: () {
-              // lógica para excluir conta
               showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
@@ -153,7 +147,6 @@ class PedidosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Substitua por uma lista real de pedidos
     return Scaffold(
       appBar: AppBar(title: const Text("Meus Pedidos")),
       body: ListView(

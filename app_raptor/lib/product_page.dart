@@ -23,6 +23,10 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
   String? tamanhoSelecionado;
   bool isFavorito = false;
 
+  final TextEditingController _cepController = TextEditingController();
+  double? valorFrete;
+  String? mensagemErroFrete;
+
   List<String> tamanhos = [
     '35',
     '36',
@@ -36,6 +40,22 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
     '44'
   ];
 
+  void calcularFrete() {
+    final cep = _cepController.text.trim();
+
+    if (cep.isEmpty || cep.length != 8 || int.tryParse(cep) == null) {
+      setState(() {
+        valorFrete = null;
+        mensagemErroFrete = 'CEP inválido. Digite 8 números.';
+      });
+    } else {
+      setState(() {
+        valorFrete = 20.00; // Aqui você pode implementar a regra real.
+        mensagemErroFrete = null;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +65,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
           Expanded(
             child: ListView(
               children: [
+                // === IMAGEM DO PRODUTO ===
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Container(
@@ -79,11 +100,6 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                             () {
                               setState(() {
                                 isFavorito = !isFavorito;
-                                if (isFavorito) {
-                                  print("Favoritado: ${widget.name}");
-                                } else {
-                                  print("Desfavoritado: ${widget.name}");
-                                }
                               });
                             },
                             color: isFavorito ? Colors.red : Colors.white,
@@ -93,6 +109,8 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     ),
                   ),
                 ),
+
+                // === DADOS DO PRODUTO ===
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -117,6 +135,8 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     ],
                   ),
                 ),
+
+                // === AVALIAÇÕES ===
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 2),
                   child: Text(
@@ -140,6 +160,8 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     ],
                   ),
                 ),
+
+                // === DESCRIÇÃO ===
                 const Padding(
                   padding: EdgeInsets.fromLTRB(24, 16, 24, 5),
                   child: Text(
@@ -157,6 +179,8 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     style: const TextStyle(fontSize: 14),
                   ),
                 ),
+
+                // === ESCOLHA DE TAMANHO ===
                 const Padding(
                   padding: EdgeInsets.fromLTRB(24, 16, 24, 8),
                   child: Text(
@@ -170,8 +194,8 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Wrap(
-                    spacing: 4, // bem pouco espaço entre colunas
-                    runSpacing: 4, // bem pouco espaço entre linhas
+                    spacing: 4,
+                    runSpacing: 4,
                     children: tamanhos.map((tamanho) {
                       final selecionado = tamanhoSelecionado == tamanho;
                       return SizedBox(
@@ -201,10 +225,78 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     }).toList(),
                   ),
                 ),
+
+                const SizedBox(height: 24),
+
+                // === CALCULAR FRETE ===
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Calcular Frete',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _cepController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: 'Digite seu CEP',
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton(
+                            onPressed: calcularFrete,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                            ),
+                            child: const Text('Calcular'),
+                          ),
+                        ],
+                      ),
+                      if (valorFrete != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            'Frete: R\$ ${valorFrete!.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      if (mensagemErroFrete != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            mensagemErroFrete!,
+                            style: const TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+
                 const SizedBox(height: 24),
               ],
             ),
           ),
+
+          // === BOTÃO DE ADICIONAR AO CARRINHO ===
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             decoration: const BoxDecoration(
@@ -230,8 +322,10 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Cartpage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Cartpage()));
                   },
                   icon: const Icon(Icons.shopping_cart),
                   label: const Text('Adicionar ao carrinho'),
